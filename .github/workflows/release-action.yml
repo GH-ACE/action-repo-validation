@@ -1,0 +1,33 @@
+name: "Release action"
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '14'
+      - name: Build code
+        run: |
+          npm install
+          npm run-script build
+      - name: Commit Files
+        continue-on-error: true # commit will fail if the code wasn't changed. Prevent the build to fail in this case.
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          echo "git add -f lib/"
+          git add -f lib/
+          echo "committing files"
+          git commit -m "[Automation]: Adding generated files - js files"
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
