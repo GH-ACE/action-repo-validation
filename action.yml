@@ -1,0 +1,16 @@
+name: 'Action Validation Checks'
+author: 'ishitachawla'
+branding:
+  icon: 'file-text'
+  color: 'blue'
+inputs:
+  GITHUB_TOKEN:
+    description: 'Github Personal Access Token'
+    required: true
+  encoding:
+    description: 'The encoding of the file.'
+    default: 'utf8'
+    required: false
+runs:
+  using: 'node12'
+  main: 'lib/main.js'
