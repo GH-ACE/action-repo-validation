@@ -3,8 +3,10 @@ A GitHub Action to validate action repositories. There are certain validations t
 
 With this Action, you can check for essential [Validations for an Action repository](https://github.com/Azure/actions/blob/main/docs/validations-action-repo.md). For every check, either a success message will be displayed or an error will be thrown.   
 
+The validations are performed using REST API and the standard checks include checks for README and CODEOWNERS files, node_modules folder for typescript actions, branch protection, vulnerability bot setup and issue template setup.
+
 ## Input
-`GITHUB_TOKEN`: Personal access token of your repository. Uses your access token PAT_TOKEN.
+`GITHUB_TOKEN`: Personal access token of your repository. Uses your access token PAT_TOKEN derived from your repository secret.
 
 ## Output
 All required validations will be run and a success mesage or an error will be shown in the console as output.
@@ -25,7 +27,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Testing action
-      uses: ishitachawla/action-repo-validation@releases/1
+      uses: GH-ACE/action-repo-validation@releases/1
       with:
         GITHUB_TOKEN: ${{ secrets.PAT_Token }}
 ```
