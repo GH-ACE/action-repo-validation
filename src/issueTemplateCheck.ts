@@ -1,37 +1,50 @@
 import * as core from '@actions/core';
-import * as fs from 'fs';
+import { Octokit } from '@octokit/core';
 
-export function issueTemplateCheck() {
-    fs.readdir('./.github',(err, folders ) => {
-      const includesISSUE_TEMPLATE = folders.includes('ISSUE_TEMPLATE');
-      if(includesISSUE_TEMPLATE){
-        console.log('Success - ISSUE_TEMPLATE is set up');
-        defaultLabelCheck();
-      }
-      else{
-        core.setFailed('Please set up ISSUE_TEMPLATE');
-      }
-    })
+export async function issueTemplateCheck(repository: string, validationResultRepo: any, ownername: string, secret_token: string, octokit: Octokit) {
+	try {
+		const result = await octokit.request('GET /repos/{owner}/{repo}/contents/.github/ISSUE_TEMPLATE', {
+			repo: repository,
+			owner: ownername,
+			headers: {
+				Authorization: 'Bearer ' + secret_token
+			}
+		});
+		if (result.status == 200) {
+			//console.log('Success - ISSUE_TEMPLATE is set up');
+			validationResultRepo['issueTemplateCheck'] = 'Yes';
+      defaultLabelCheck(repository, ownername, secret_token, octokit);
+		}
+		else {
+			//core.setFailed('Please set up ISSUE_TEMPLATE');
+			validationResultRepo['issueTemplateCheck'] = 'No';
+		}
+	}
+	catch (err) {
+		//core.setFailed('Please set up ISSUE_TEMPLATE');
+		validationResultRepo['issueTemplateCheck'] = 'No';
+	}
+	return Promise.resolve(validationResultRepo)
 }
   
-function defaultLabelCheck(){
-    fs.readdir('./.github/ISSUE_TEMPLATE',(err, filelist ) => {
-      let i=0;
-      while( i < filelist.length ){
-        if(getExtension(filelist[i]) === 'md'){
-          let data = fs.readFileSync('./.github/ISSUE_TEMPLATE/'+filelist[i]) 
-            if(data.includes('need-to-triage')){
-              console.log('Success - Default label is need-to-triage');
-              break;
-            }
-        }
-        i++;
-      }
-      if(i==filelist.length)
-        core.setFailed('Please set default label as need-to-triage')
-    })
-}
-
-function getExtension(filename: string) {
-    return filename.substring(filename.lastIndexOf('.') + 1, filename.length)   
+async function defaultLabelCheck(repository: string, ownername: string, secret_token: string, octokit: Octokit){
+  try {
+		const result = await octokit.request('GET /repos/{owner}/{repo}/contents/.github/ISSUE_TEMPLATE/custom.md', {
+			repo: repository,
+			owner: ownername,
+			headers: {
+				Authorization: 'Bearer ' + secret_token
+			}
+		});
+    let contents = Buffer.from(result.data.content, "base64").toString("utf8");
+			if (contents.includes('need-to-triage')) {
+				//console.log('Success - Default label is need-to-triage');
+			}
+			else {
+				//core.setFailed('Please set default label as need-to-triage')
+			}
+	}
+	catch (err) {
+		//console.log(err);
+	}
 }
