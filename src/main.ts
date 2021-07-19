@@ -15,7 +15,7 @@ async function main() {
     });
     var repositories = core.getInput('repositories');
     var repositories_list = repositories.split(',');
-    const ownername = github.context.repo.owner;
+    const ownername = 'azure';//github.context.repo.owner;
     var repository = '';
     var validationResult = [];
     for (var i = 0; i < repositories_list.length; i++) {
