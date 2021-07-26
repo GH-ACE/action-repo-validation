@@ -12,6 +12,7 @@ export async function branchPermissionCheck(repository: string, validationResult
         for(let i=0;i<result.data.length;i++){
             if(result.data[i].name.substring(0,9) === 'releases/' || result.data[i].name === 'main' || result.data[i].name === 'master' ){
                 var branchname = result.data[i].name;
+                console.log(branchname);
                 branchPermissionCheckHelper(branchname, validationResultRepo, repository, ownername, secret_token, octokit);
             }
         }
