@@ -33,6 +33,7 @@ async function branchPermissionCheckHelper(branchname: string, validationResultR
         }); 
         if(result.data.require_code_owner_reviews === false){
             //core.setFailed('Please enable Require review from Code Owners for '+ branchname)
+            console.log(branchname);
             validationResultRepo['branchPermissionCheck'] = 'No';
         }
         else{
