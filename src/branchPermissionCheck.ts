@@ -31,10 +31,19 @@ async function branchPermissionCheckHelper(branchname: string, validationResultR
         owner: ownername,
         branch: branchname,
         headers : { Authorization: 'Bearer ' + secret_token
-        }
+        },
+        dismissal_restrictions: {
+            users: [
+              'BALAGA-GAYATRI'
+            ],
+            teams: [
+              'ace-crew'
+            ]
+          }
         }); 
         console.log(result);
-        if(result.data.require_code_owner_reviews === false){
+
+        if(result.data.required_approving_review_count === 0){
             //core.setFailed('Please enable Require review from Code Owners for '+ branchname)
             console.log(branchname + '-->no');
             validationResultRepo['branchPermissionCheck'] = 'No';
