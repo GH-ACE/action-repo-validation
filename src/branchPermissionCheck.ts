@@ -24,6 +24,7 @@ export async function branchPermissionCheck(repository: string, validationResult
 }
 
 async function branchPermissionCheckHelper(branchname: string, validationResultRepo: any, repository: string, ownername: string, secret_token: string, octokit: Octokit){ 
+    console.log(branchname);
     try{
         const result = await octokit.request('GET /repos/{owner}/{repo}/branches/{branch}/protection/required_pull_request_reviews',{
         repo: repository,
@@ -34,7 +35,6 @@ async function branchPermissionCheckHelper(branchname: string, validationResultR
         }); 
         if(result.data.require_code_owner_reviews === false){
             //core.setFailed('Please enable Require review from Code Owners for '+ branchname)
-            console.log(branchname);
             validationResultRepo['branchPermissionCheck'] = 'No';
         }
         else{
