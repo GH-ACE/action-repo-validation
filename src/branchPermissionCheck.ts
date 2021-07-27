@@ -45,12 +45,12 @@ async function branchPermissionCheckHelper(branchname: string, validationResultR
 
         if(result.data.required_approving_review_count === 0){
             //core.setFailed('Please enable Require review from Code Owners for '+ branchname)
-            // console.log(branchname + '-->no');
+            console.log(repository + branchname + '-->no');
             validationResultRepo['branchPermissionCheck'] = 'No';
         }
         else{
             //console.log('Success - Require pull request reviews before merging is enabled for '+ branchname);
-            // console.log(branchname + '-->yes');
+            console.log(repository + branchname + '-->yes');
             validationResultRepo['branchPermissionCheck'] = 'Yes';
         }
     } 
