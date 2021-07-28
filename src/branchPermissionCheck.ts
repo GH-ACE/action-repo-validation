@@ -9,7 +9,7 @@ export async function branchPermissionCheck(repository: string, validationResult
         headers : { Authorization: 'Bearer ' + secret_token
         }
         });
-        console.log('please print something');
+        // console.log('please print something');
         for(let i=0;i<result.data.length;i++){
             if(result.data[i].name.substring(0,9) === 'releases/' || result.data[i].name === 'main' || result.data[i].name === 'master' ){
                 var branchname = result.data[i].name;
@@ -45,17 +45,17 @@ async function branchPermissionCheckHelper(branchname: string, validationResultR
 
         if(result.data.required_approving_review_count === 0){
             //core.setFailed('Please enable Require review from Code Owners for '+ branchname)
-            console.log(repository + branchname + '-->no');
+            // console.log(repository + branchname + '-->no');
             validationResultRepo['branchPermissionCheck'] = 'No';
         }
         else{
             //console.log('Success - Require pull request reviews before merging is enabled for '+ branchname);
-            console.log(repository + branchname + '-->yes');
+            // console.log(repository + branchname + '-->yes');
             validationResultRepo['branchPermissionCheck'] = 'Yes';
         }
     } 
     catch(err){
         //core.setFailed('Please enable Require review from Code Owners for '+ branchname)
-        validationResultRepo['branchPermissionCheck'] = 'No';
+        validationResultRepo['branchPermissionCheck'] = 'unknown';
     }        
 }
