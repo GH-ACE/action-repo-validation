@@ -147,7 +147,7 @@ export async function releasesNodeModulesCheck(repository: string, validationRes
 		}
 	}
 	catch (err) {
-		validationResultRepo['releasesNodeModulesCheck'] = 'Access Reqd';
+		validationResultRepo['releasesNodeModulesCheck'] = 'Access reqd';
 		console.log(err);
 	}
 	return Promise.resolve(validationResultRepo)
