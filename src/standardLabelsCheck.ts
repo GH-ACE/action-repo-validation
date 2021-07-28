@@ -38,7 +38,7 @@ export async function standardLabelsCheck(repository: string, validationResultRe
     }
     catch(err){
       //console.log(err);
-      validationResultRepo['standardLabelsCheck'] = 'No';
+      validationResultRepo['standardLabelsCheck'] = 'Access Reqd';
     }
     return Promise.resolve(validationResultRepo)
   }

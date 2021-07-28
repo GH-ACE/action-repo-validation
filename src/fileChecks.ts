@@ -41,7 +41,7 @@ export async function readmeChecks(repository: string, validationResultRepo: any
 	}
 	catch (err) {
 		//core.setFailed('Please add README file')
-		validationResultRepo['readmeChecks'] = 'No';
+		validationResultRepo['readmeChecks'] = 'Access reqd';
 	}
 	return Promise.resolve(validationResultRepo)
 
@@ -67,7 +67,7 @@ export async function codeOwnerCheck(repository: string,  validationResultRepo: 
 	}
 	catch (err) {
 		//core.setFailed('Please add CODEOWNERS file');
-		validationResultRepo['codeOwnerCheck'] = 'No';
+		validationResultRepo['codeOwnerCheck'] = 'Access reqd';
 	}
 	return Promise.resolve(validationResultRepo)
 }
@@ -101,7 +101,7 @@ export async function nodeModulesCheck(repository: string, validationResultRepo:
 			}
 			catch (err) {
 				//console.log('Success - node_modules folder is not present in master');
-				validationResultRepo['nodeModulesCheck'] = 'Yes';
+				validationResultRepo['nodeModulesCheck'] = 'Access reqd';
 			}
 		}
 	}
@@ -147,6 +147,7 @@ export async function releasesNodeModulesCheck(repository: string, validationRes
 		}
 	}
 	catch (err) {
+		validationResultRepo['releasesNodeModulesCheck'] = 'Access Reqd';
 		console.log(err);
 	}
 	return Promise.resolve(validationResultRepo)
