@@ -107,6 +107,7 @@ export async function nodeModulesCheck(repository: string, validationResultRepo:
 	}
 	catch (err) {
 		console.log(err);
+		validationResultRepo['nodeModulesCheck'] = 'Access reqd';
 	}
 	return Promise.resolve(validationResultRepo)
 }
@@ -123,27 +124,35 @@ export async function releasesNodeModulesCheck(repository: string, validationRes
 		for (let i = 0; i < result.data.length; i++) {
 			if (result.data[i].name.substring(0, 9) === 'releases/') {
 				var branchname = result.data[i].name;
-				const branch = await octokit.request('GET /repos/{owner}/{repo}/contents', {
-					owner: ownername,
-					repo: repository,
-					ref: branchname,
-					headers: {
-						Authorization: 'Bearer ' + secret_token
+				try {
+					const branch = await octokit.request('GET /repos/{owner}/{repo}/contents', {
+						owner: ownername,
+						repo: repository,
+						ref: branchname,
+						headers: {
+							Authorization: 'Bearer ' + secret_token
+						}
+					})
+				
+					var flag = 0;
+					for (let j = 0; j < branch.data.length; j++) {
+						if (branch.data[j].name === 'node_modules') {
+							flag = 1;
+							//console.log('Success - node_modules folder is present in ' + branchname);
+							validationResultRepo['releasesNodeModulesCheck'] = 'Yes';
+						}
 					}
-				})
-				var flag = 0;
-				for (let j = 0; j < branch.data.length; j++) {
-					if (branch.data[j].name === 'node_modules') {
-						flag = 1;
-						//console.log('Success - node_modules folder is present in ' + branchname);
-						validationResultRepo['releasesNodeModulesCheck'] = 'Yes';
+					if (flag === 0) {
+						//core.setFailed('Please add node_modules to ' + branchname);
+						validationResultRepo['releasesNodeModulesCheck'] = 'No';
 					}
 				}
-				if (flag === 0) {
-					//core.setFailed('Please add node_modules to ' + branchname);
-					validationResultRepo['releasesNodeModulesCheck'] = 'No';
+				catch (err){
+					console.log(err);
+					validationResultRepo['nodeModulesCheck'] = 'Access reqd';
+					return Promise.resolve(validationResultRepo)
 				}
-			}
+			}	
 		}
 	}
 	catch (err) {
