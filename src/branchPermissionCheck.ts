@@ -30,16 +30,16 @@ async function branchPermissionCheckHelper(branchname: string, validationResultR
         repo: repository,
         owner: ownername,
         branch: branchname,
-        headers : { Authorization: 'Bearer ' + secret_token
-        },
-        dismissal_restrictions: {
-            users: [
-              'BALAGA-GAYATRI'
-            ],
-            teams: [
-              'ace-crew'
-            ]
-          }
+        headers : { Authorization: 'Bearer ' + secret_token }//,
+        // dismissal_restrictions: {
+        //     users: [
+        //       'BALAGA-GAYATRI'
+        //     ],
+        //     teams: [
+        //       'ace-crew'
+        //     ]
+        //   }
+        // }
         }); 
         // console.log(result);
 
@@ -48,7 +48,7 @@ async function branchPermissionCheckHelper(branchname: string, validationResultR
             // console.log(repository + branchname + '-->no');
             validationResultRepo['branchPermissionCheck'] = 'No';
         }
-        else{
+        else {
             //console.log('Success - Require pull request reviews before merging is enabled for '+ branchname);
             // console.log(repository + branchname + '-->yes');
             validationResultRepo['branchPermissionCheck'] = 'Yes';
