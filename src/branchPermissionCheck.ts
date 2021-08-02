@@ -30,16 +30,15 @@ async function branchPermissionCheckHelper(branchname: string, validationResultR
         repo: repository,
         owner: ownername,
         branch: branchname,
-        headers : { Authorization: 'Bearer ' + secret_token }//,
-        // dismissal_restrictions: {
-        //     users: [
-        //       'BALAGA-GAYATRI'
-        //     ],
-        //     teams: [
-        //       'ace-crew'
-        //     ]
-        //   }
-        // }
+        headers : { Authorization: 'Bearer ' + secret_token },
+        dismissal_restrictions: {
+            // users: [
+            //   'BALAGA-GAYATRI'
+            // ],
+            teams: [
+              'ace-crew'
+            ]
+          }
         }); 
         // console.log(result);
 
