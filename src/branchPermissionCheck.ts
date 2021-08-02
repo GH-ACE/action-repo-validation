@@ -32,26 +32,27 @@ async function branchPermissionCheckHelper(branchname: string, validationResultR
         branch: branchname,
         headers : { Authorization: 'Bearer ' + secret_token },
         dismissal_restrictions: {
-            // users: [
-            //   'BALAGA-GAYATRI'
-            // ],
-            teams: [
-              'ace-crew'
-            ]
+            // // users: [
+            // //   'BALAGA-GAYATRI'
+            // // ],
+            // teams: [
+            //   'ace-crew'
+            // ]
           }
         }); 
         console.log(result);
-
-        if(result.data.required_approving_review_count === 0){
+        var approval_count = result.data.required_approving_review_count;
+        if(approval_count === 0 || approval_count === undefined){
             //core.setFailed('Please enable Require review from Code Owners for '+ branchname)
             // console.log(repository + branchname + '-->no');
             validationResultRepo['branchPermissionCheck'] = 'No';
         }
-        else {
+        else{
             //console.log('Success - Require pull request reviews before merging is enabled for '+ branchname);
             // console.log(repository + branchname + '-->yes');
             validationResultRepo['branchPermissionCheck'] = 'Yes';
         }
+        
     } 
     catch(err){
         //core.setFailed('Please enable Require review from Code Owners for '+ branchname)
