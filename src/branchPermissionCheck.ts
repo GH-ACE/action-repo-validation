@@ -40,7 +40,7 @@ async function branchPermissionCheckHelper(branchname: string, validationResultR
             ]
           }
         }); 
-        // console.log(result);
+        console.log(result);
 
         if(result.data.required_approving_review_count === 0){
             //core.setFailed('Please enable Require review from Code Owners for '+ branchname)
