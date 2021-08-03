@@ -25,12 +25,12 @@ async function main() {
             "repoName": repository,
             "readmeChecks": "unknown",
             "codeOwnerCheck": "unknown",
-            "nodeModulesCheck": "unknown",
             "branchPermissionCheck": "unknown",
-            "releasesNodeModulesCheck": "unknown",
             "vulnerabilityBotCheck": "unknown",
             "issueTemplateCheck": "unknown",
-            "standardLabelsCheck": "unknown"
+            "standardLabelsCheck": "unknown",
+            "nodeModulesCheck(.TS)": "unknown",
+            "releasesNodeModulesCheck(.TS)": "unknown",
         }
         //Check for example and Contribution in README
         validationResultRepo = await readmeChecks(repository, validationResultRepo, ownername, secret_token, octokit);

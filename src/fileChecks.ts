@@ -104,6 +104,9 @@ export async function nodeModulesCheck(repository: string, validationResultRepo:
 				validationResultRepo['nodeModulesCheck'] = 'Access reqd';
 			}
 		}
+		else{
+			validationResultRepo['nodeModulesCheck'] = 'NA';
+		}
 	}
 	catch (err) {
 		console.log(err);
@@ -121,8 +124,10 @@ export async function releasesNodeModulesCheck(repository: string, validationRes
 				Authorization: 'Bearer ' + secret_token
 			}
 		});
+		let release_flag = false;
 		for (let i = 0; i < result.data.length; i++) {
 			if (result.data[i].name.substring(0, 9) === 'releases/') {
+				release_flag=true;
 				var branchname = result.data[i].name;
 				try {
 					const branch = await octokit.request('GET /repos/{owner}/{repo}/contents', {
@@ -153,6 +158,10 @@ export async function releasesNodeModulesCheck(repository: string, validationRes
 					return Promise.resolve(validationResultRepo)
 				}
 			}	
+		}
+		if(!release_flag)
+		{
+			validationResultRepo['nodeModulesCheck'] = 'NA'
 		}
 	}
 	catch (err) {
