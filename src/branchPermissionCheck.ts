@@ -19,7 +19,7 @@ export async function branchPermissionCheck(repository: string, validationResult
     }
     catch(err){
         console.log(err);
-        validationResultRepo['branchPermissionCheck'] = 'Access reqd';
+        validationResultRepo['branchPermission'] = 'Access reqd';
     }
     return Promise.resolve(validationResultRepo)
 }
@@ -46,17 +46,17 @@ async function branchPermissionCheckHelper(branchname: string, validationResultR
         if(approval_count === 0 ){
             //core.setFailed('Please enable Require review from Code Owners for '+ branchname)
             // console.log(repository + branchname + '-->no');
-            validationResultRepo['branchPermissionCheck'] = 'No';
+            validationResultRepo['branchPermission'] = 'No';
         }
         else{
             //console.log('Success - Require pull request reviews before merging is enabled for '+ branchname);
             // console.log(repository + branchname + '-->yes');
-            validationResultRepo['branchPermissionCheck'] = 'Yes';
+            validationResultRepo['branchPermission'] = 'Yes';
         }
         
     } 
     catch(err){
         //core.setFailed('Please enable Require review from Code Owners for '+ branchname)
-        validationResultRepo['branchPermissionCheck'] = 'Access reqd';
+        validationResultRepo['branchPermission'] = 'Access reqd';
     }        
 }

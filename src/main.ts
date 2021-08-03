@@ -23,14 +23,14 @@ async function main() {
         console.log('*******' + repository + '*******');
         var validationResultRepo: any = {
             "repoName": repository,
-            "readmeChecks": "unknown",
-            "codeOwnerCheck": "unknown",
-            "branchPermissionCheck": "unknown",
-            "vulnerabilityBotCheck": "unknown",
-            "issueTemplateCheck": "unknown",
-            "standardLabelsCheck": "unknown",
-            "nodeModulesCheck": "unknown",
-            "releasesNodeModulesCheck": "unknown",
+            "readme": "unknown",
+            "codeOwner": "unknown",
+            "branchPermission": "unknown",
+            "vulnerabilityBot": "unknown",
+            "issueTemplate": "unknown",
+            "standardLabels": "unknown",
+            "nodeModules(.TS)": "unknown",
+            "releasesNodeModules(.TS)": "unknown",
         }
         // Check for example and Contribution in README
         validationResultRepo = await readmeChecks(repository, validationResultRepo, ownername, secret_token, octokit);

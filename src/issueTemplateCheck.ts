@@ -12,17 +12,17 @@ export async function issueTemplateCheck(repository: string, validationResultRep
 		});
 		if (result.status == 200) {
 			//console.log('Success - ISSUE_TEMPLATE is set up');
-			validationResultRepo['issueTemplateCheck'] = 'Yes';
+			validationResultRepo['issueTemplate'] = 'Yes';
       defaultLabelCheck(repository, ownername, secret_token, octokit);
 		}
 		else {
 			//core.setFailed('Please set up ISSUE_TEMPLATE');
-			validationResultRepo['issueTemplateCheck'] = 'No';
+			validationResultRepo['issueTemplate'] = 'No';
 		}
 	}
 	catch (err) {
 		//core.setFailed('Please set up ISSUE_TEMPLATE');
-		validationResultRepo['issueTemplateCheck'] = 'Access reqd';
+		validationResultRepo['issueTemplate'] = 'Access reqd';
 	}
 	return Promise.resolve(validationResultRepo)
 }

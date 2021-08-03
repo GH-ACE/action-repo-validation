@@ -32,16 +32,16 @@ export async function readmeChecks(repository: string, validationResultRepo: any
 			else {
 				//core.setFailed('Please add Contribution Guidelines in README');
 			}
-			validationResultRepo['readmeChecks'] = 'Yes';
+			validationResultRepo['readmes'] = 'Yes';
 		}
 		else {
 			//core.setFailed('Please add README file')
-			validationResultRepo['readmeChecks'] = 'No';
+			validationResultRepo['readmes'] = 'No';
 		}
 	}
 	catch (err) {
 		//core.setFailed('Please add README file')
-		validationResultRepo['readmeChecks'] = 'Access reqd';
+		validationResultRepo['readmes'] = 'Access reqd';
 	}
 	return Promise.resolve(validationResultRepo)
 
@@ -58,16 +58,16 @@ export async function codeOwnerCheck(repository: string,  validationResultRepo: 
 		});
 		if (result.status == 200) {
 			//console.log('Success - CODEOWNERS file is present');
-			validationResultRepo['codeOwnerCheck'] = 'Yes';
+			validationResultRepo['codeOwner'] = 'Yes';
 		}
 		else {
 			//core.setFailed('Please add CODEOWNERS file');
-			validationResultRepo['codeOwnerCheck'] = 'No';
+			validationResultRepo['codeOwner'] = 'No';
 		}
 	}
 	catch (err) {
 		//core.setFailed('Please add CODEOWNERS file');
-		validationResultRepo['codeOwnerCheck'] = 'Access reqd';
+		validationResultRepo['codeOwner'] = 'Access reqd';
 	}
 	return Promise.resolve(validationResultRepo)
 }
@@ -92,25 +92,25 @@ export async function nodeModulesCheck(repository: string, validationResultRepo:
 				});
 				if (includes_node_modules.status == 200) {
 					//core.setFailed('Please remove node_modules folder from master');
-					validationResultRepo['(nodeModulesCheck(.TS))'] = 'No';
+					validationResultRepo['(nodeModules(.TS))'] = 'No';
 				}
 				else {
 					//console.log('Success - node_modules folder is not present in master');
-					validationResultRepo['nodeModulesCheck(.TS)'] = 'Yes';
+					validationResultRepo['nodeModules(.TS)'] = 'Yes';
 				}
 			}
 			catch (err) {
 				//console.log('Success - node_modules folder is not present in master');
-				validationResultRepo['nodeModulesCheck(.TS)'] = 'Access reqd';
+				validationResultRepo['nodeModules(.TS)'] = 'Access reqd';
 			}
 		}
 		else{
-			validationResultRepo['nodeModulesCheck(.TS)'] = 'NA';
+			validationResultRepo['nodeModules(.TS)'] = 'NA';
 		}
 	}
 	catch (err) {
 		console.log(err);
-		validationResultRepo['nodeModulesCheck(.TS)'] = 'Access reqd';
+		validationResultRepo['nodeModules(.TS)'] = 'Access reqd';
 	}
 	return Promise.resolve(validationResultRepo)
 }
@@ -144,28 +144,28 @@ export async function releasesNodeModulesCheck(repository: string, validationRes
 						if (branch.data[j].name === 'node_modules') {
 							flag = 1;
 							//console.log('Success - node_modules folder is present in ' + branchname);
-							validationResultRepo['releasesNodeModulesCheck(.TS)'] = 'Yes';
+							validationResultRepo['releasesNodeModules(.TS)'] = 'Yes';
 						}
 					}
 					if (flag === 0) {
 						//core.setFailed('Please add node_modules to ' + branchname);
-						validationResultRepo['releasesNodeModulesCheck(.TS)'] = 'No';
+						validationResultRepo['releasesNodeModules(.TS)'] = 'No';
 					}
 				}
 				catch (err){
 					console.log(err);
-					validationResultRepo['releasesNodeModulesCheck(.TS)'] = 'Access reqd';
+					validationResultRepo['releasesNodeModules(.TS)'] = 'Access reqd';
 					return Promise.resolve(validationResultRepo)
 				}
 			}	
 		}
 		if(!release_flag)
 		{
-			validationResultRepo['releasesNodeModulesCheck(.TS)'] = 'NA'
+			validationResultRepo['releasesNodeModules(.TS)'] = 'NA'
 		}
 	}
 	catch (err) {
-		validationResultRepo['releasesNodeModulesCheck(.TS)'] = 'Access reqd';
+		validationResultRepo['releasesNodeModules(.TS)'] = 'Access reqd';
 		console.log(err);
 	}
 	return Promise.resolve(validationResultRepo)
