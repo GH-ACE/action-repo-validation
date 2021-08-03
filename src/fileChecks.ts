@@ -144,28 +144,28 @@ export async function releasesNodeModulesCheck(repository: string, validationRes
 						if (branch.data[j].name === 'node_modules') {
 							flag = 1;
 							//console.log('Success - node_modules folder is present in ' + branchname);
-							validationResultRepo['releasesnodeModulesCheck(.TS)'] = 'Yes';
+							validationResultRepo['releasesNodeModulesCheck(.TS)'] = 'Yes';
 						}
 					}
 					if (flag === 0) {
 						//core.setFailed('Please add node_modules to ' + branchname);
-						validationResultRepo['releasesnodeModulesCheck(.TS)'] = 'No';
+						validationResultRepo['releasesNodeModulesCheck(.TS)'] = 'No';
 					}
 				}
 				catch (err){
 					console.log(err);
-					validationResultRepo['nodeModulesCheck(.TS)'] = 'Access reqd';
+					validationResultRepo['releasesNodeModulesCheck(.TS)'] = 'Access reqd';
 					return Promise.resolve(validationResultRepo)
 				}
 			}	
 		}
 		if(!release_flag)
 		{
-			validationResultRepo['nodeModulesCheck(.TS)'] = 'NA'
+			validationResultRepo['releasesNodeModulesCheck(.TS)'] = 'NA'
 		}
 	}
 	catch (err) {
-		validationResultRepo['releasesnodeModulesCheck(.TS)'] = 'Access reqd';
+		validationResultRepo['releasesNodeModulesCheck(.TS)'] = 'Access reqd';
 		console.log(err);
 	}
 	return Promise.resolve(validationResultRepo)
