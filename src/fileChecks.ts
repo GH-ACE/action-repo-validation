@@ -92,25 +92,25 @@ export async function nodeModulesCheck(repository: string, validationResultRepo:
 				});
 				if (includes_node_modules.status == 200) {
 					//core.setFailed('Please remove node_modules folder from master');
-					validationResultRepo['nodeModulesCheck'] = 'No';
+					validationResultRepo['(nodeModulesCheck(.TS))'] = 'No';
 				}
 				else {
 					//console.log('Success - node_modules folder is not present in master');
-					validationResultRepo['nodeModulesCheck'] = 'Yes';
+					validationResultRepo['nodeModulesCheck(.TS)'] = 'Yes';
 				}
 			}
 			catch (err) {
 				//console.log('Success - node_modules folder is not present in master');
-				validationResultRepo['nodeModulesCheck'] = 'Access reqd';
+				validationResultRepo['nodeModulesCheck(.TS)'] = 'Access reqd';
 			}
 		}
 		else{
-			validationResultRepo['nodeModulesCheck'] = 'NA';
+			validationResultRepo['nodeModulesCheck(.TS)'] = 'NA';
 		}
 	}
 	catch (err) {
 		console.log(err);
-		validationResultRepo['nodeModulesCheck'] = 'Access reqd';
+		validationResultRepo['nodeModulesCheck(.TS)'] = 'Access reqd';
 	}
 	return Promise.resolve(validationResultRepo)
 }
@@ -144,28 +144,28 @@ export async function releasesNodeModulesCheck(repository: string, validationRes
 						if (branch.data[j].name === 'node_modules') {
 							flag = 1;
 							//console.log('Success - node_modules folder is present in ' + branchname);
-							validationResultRepo['releasesNodeModulesCheck'] = 'Yes';
+							validationResultRepo['releasesnodeModulesCheck(.TS)'] = 'Yes';
 						}
 					}
 					if (flag === 0) {
 						//core.setFailed('Please add node_modules to ' + branchname);
-						validationResultRepo['releasesNodeModulesCheck'] = 'No';
+						validationResultRepo['releasesnodeModulesCheck(.TS)'] = 'No';
 					}
 				}
 				catch (err){
 					console.log(err);
-					validationResultRepo['nodeModulesCheck'] = 'Access reqd';
+					validationResultRepo['nodeModulesCheck(.TS)'] = 'Access reqd';
 					return Promise.resolve(validationResultRepo)
 				}
 			}	
 		}
 		if(!release_flag)
 		{
-			validationResultRepo['nodeModulesCheck'] = 'NA'
+			validationResultRepo['nodeModulesCheck(.TS)'] = 'NA'
 		}
 	}
 	catch (err) {
-		validationResultRepo['releasesNodeModulesCheck'] = 'Access reqd';
+		validationResultRepo['releasesnodeModulesCheck(.TS)'] = 'Access reqd';
 		console.log(err);
 	}
 	return Promise.resolve(validationResultRepo)
