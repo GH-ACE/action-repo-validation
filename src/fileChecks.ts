@@ -32,16 +32,16 @@ export async function readmeChecks(repository: string, validationResultRepo: any
 			else {
 				//core.setFailed('Please add Contribution Guidelines in README');
 			}
-			validationResultRepo['readmes'] = 'Yes';
+			validationResultRepo['readme'] = 'Yes';
 		}
 		else {
 			//core.setFailed('Please add README file')
-			validationResultRepo['readmes'] = 'No';
+			validationResultRepo['readme'] = 'No';
 		}
 	}
 	catch (err) {
 		//core.setFailed('Please add README file')
-		validationResultRepo['readmes'] = 'Access reqd';
+		validationResultRepo['readme'] = 'Access reqd';
 	}
 	return Promise.resolve(validationResultRepo)
 
@@ -92,7 +92,7 @@ export async function nodeModulesCheck(repository: string, validationResultRepo:
 				});
 				if (includes_node_modules.status == 200) {
 					//core.setFailed('Please remove node_modules folder from master');
-					validationResultRepo['(nodeModules(.TS))'] = 'No';
+					validationResultRepo['nodeModules(.TS)'] = 'No';
 				}
 				else {
 					//console.log('Success - node_modules folder is not present in master');
