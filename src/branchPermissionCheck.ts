@@ -34,11 +34,6 @@ async function branchPermissionCheckHelper(branchname: string, validationResultR
         owner: ownername,
         branch: branchname,
         headers : { Authorization: 'Bearer ' + secret_token },
-        dismissal_restrictions: {
-           teams: [
-              'ace-crew'
-            ]
-        }
         }); 
         console.log(result);
         var approval_count = result.data.required_approving_review_count;
