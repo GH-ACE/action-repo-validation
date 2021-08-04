@@ -41,9 +41,9 @@ export async function readmeChecks(repository: string, validationResultRepo: any
 	}
 	catch (err) {
 		if(err.status == 404)
-			validationResultRepo['codeOwner'] = 'No';
+			validationResultRepo['readme'] = 'No';
 		else
-			validationResultRepo['codeOwner'] = 'Access reqd';
+			validationResultRepo['readme'] = 'Access reqd';
 	}
 	return Promise.resolve(validationResultRepo)
 
@@ -113,9 +113,9 @@ export async function nodeModulesCheck(repository: string, validationResultRepo:
 			catch (err) {
 				//console.log('Success - node_modules folder is not present in master');
 				if(err.status == 404)
-					validationResultRepo['codeOwner'] = 'Yes';
+					validationResultRepo['nodeModules(.TS)'] = 'Yes';
 				else
-					validationResultRepo['codeOwner'] = 'Access reqd';
+					validationResultRepo['nodeModules(.TS)'] = 'Access reqd';
 			}
 		}
 		else{
