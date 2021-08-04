@@ -69,6 +69,7 @@ export async function codeOwnerCheck(repository: string,  validationResultRepo: 
 	}
 	catch (err) {
 		//core.setFailed('Please add CODEOWNERS file');
+		console.log(err);
 		validationResultRepo['codeOwner'] = 'Access reqd';
 	}
 	return Promise.resolve(validationResultRepo)
