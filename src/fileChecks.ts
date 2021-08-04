@@ -40,8 +40,10 @@ export async function readmeChecks(repository: string, validationResultRepo: any
 		}
 	}
 	catch (err) {
-		//core.setFailed('Please add README file')
-		validationResultRepo['readme'] = 'Access reqd';
+		if(err.status == 404)
+			validationResultRepo['codeOwner'] = 'No';
+		else
+			validationResultRepo['codeOwner'] = 'Access reqd';
 	}
 	return Promise.resolve(validationResultRepo)
 
@@ -69,8 +71,10 @@ export async function codeOwnerCheck(repository: string,  validationResultRepo: 
 	}
 	catch (err) {
 		//core.setFailed('Please add CODEOWNERS file');
-		console.log(err);
-		validationResultRepo['codeOwner'] = 'Access reqd';
+		if(err.status == 404)
+			validationResultRepo['codeOwner'] = 'No';
+		else
+			validationResultRepo['codeOwner'] = 'Access reqd';
 	}
 	return Promise.resolve(validationResultRepo)
 }
@@ -97,14 +101,17 @@ export async function nodeModulesCheck(repository: string, validationResultRepo:
 					//core.setFailed('Please remove node_modules folder from master');
 					validationResultRepo['nodeModules(.TS)'] = 'No';
 				}
-				else {
-					//console.log('Success - node_modules folder is not present in master');
-					validationResultRepo['nodeModules(.TS)'] = 'Yes';
-				}
+				// else {
+				// 	//console.log('Success - node_modules folder is not present in master');
+				// 	validationResultRepo['nodeModules(.TS)'] = 'Yes';
+				// }
 			}
 			catch (err) {
 				//console.log('Success - node_modules folder is not present in master');
-				validationResultRepo['nodeModules(.TS)'] = 'Access reqd';
+				if(err.status == 404)
+					validationResultRepo['codeOwner'] = 'Yes';
+				else
+					validationResultRepo['codeOwner'] = 'Access reqd';
 			}
 		}
 		else{
