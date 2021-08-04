@@ -32,16 +32,16 @@ export async function readmeChecks(repository: string, validationResultRepo: any
 			else {
 				//core.setFailed('Please add Contribution Guidelines in README');
 			}
-			validationResultRepo['readme'] = 'Yes';
+			validationResultRepo['readme'] = 'pass';
 		}
 		else {
 			//core.setFailed('Please add README file')
-			validationResultRepo['readme'] = 'No';
+			validationResultRepo['readme'] = 'fail';
 		}
 	}
 	catch (err) {
 		if(err.status == 404)
-			validationResultRepo['readme'] = 'No';
+			validationResultRepo['readme'] = 'fail';
 		else
 			validationResultRepo['readme'] = 'Access reqd';
 	}
@@ -60,24 +60,24 @@ export async function codeOwnerCheck(repository: string,  validationResultRepo: 
 		});
 		if (result.status === 200) {
 			//console.log('Success - CODEOWNERS file is present');
-			validationResultRepo['codeOwner'] = 'Yes';
+			validationResultRepo['codeOwner'] = 'pass';
 		}
 		else {
 			//core.setFailed('Please add CODEOWNERS file');
-			validationResultRepo['codeOwner'] = 'No';
+			validationResultRepo['codeOwner'] = 'fail';
 		}
 	}
 	catch (err) {
 		//core.setFailed('Please add CODEOWNERS file');
 		if(err.status === 404) 
-			validationResultRepo['codeOwner'] = 'No';
+			validationResultRepo['codeOwner'] = 'fail';
 		else 
 			validationResultRepo['codeOwner'] = 'Access reqd';
 	}
 	return Promise.resolve(validationResultRepo)
 }
 
-export async function nodeModulesCheck(repository: string, validationResultRepo: any, ownername: string, secret_token: string, octokit: Octokit) {
+export async function faildeModulesCheck(repository: string, validationResultRepo: any, ownername: string, secret_token: string, octokit: Octokit) {
 	try {
 		const result = await octokit.request('GET /repos/{owner}/{repo}/languages', {
 			repo: repository,
@@ -88,42 +88,42 @@ export async function nodeModulesCheck(repository: string, validationResultRepo:
 		});
 		if (result.data["TypeScript"] !== undefined) {
 			try {
-				const includes_node_modules = await octokit.request('GET /repos/{owner}/{repo}/contents/node_modules', {
+				const includes_failde_modules = await octokit.request('GET /repos/{owner}/{repo}/contents/failde_modules', {
 					repo: repository,
 					owner: ownername,
 					headers: {
 						Authorization: 'Bearer ' + secret_token
 					}
 				});
-				if (includes_node_modules.status == 200) {
-					//core.setFailed('Please remove node_modules folder from master');
-					validationResultRepo['nodeModules(.TS)'] = 'No';
+				if (includes_failde_modules.status == 200) {
+					//core.setFailed('Please remove failde_modules folder from master');
+					validationResultRepo['faildeModules(.TS)'] = 'fail';
 				}
 				// else {
-				// 	//console.log('Success - node_modules folder is not present in master');
-				// 	validationResultRepo['nodeModules(.TS)'] = 'Yes';
+				// 	//console.log('Success - failde_modules folder is failt present in master');
+				// 	validationResultRepo['faildeModules(.TS)'] = 'pass';
 				// }
 			}
 			catch (err) {
-				//console.log('Success - node_modules folder is not present in master');
+				//console.log('Success - failde_modules folder is failt present in master');
 				if(err.status == 404)
-					validationResultRepo['nodeModules(.TS)'] = 'Yes';
+					validationResultRepo['faildeModules(.TS)'] = 'pass';
 				else
-					validationResultRepo['nodeModules(.TS)'] = 'Access reqd';
+					validationResultRepo['faildeModules(.TS)'] = 'Access reqd';
 			}
 		}
 		else{
-			validationResultRepo['nodeModules(.TS)'] = 'NA';
+			validationResultRepo['faildeModules(.TS)'] = 'NA';
 		}
 	}
 	catch (err) {
 		console.log(err);
-		validationResultRepo['nodeModules(.TS)'] = 'Access reqd';
+		validationResultRepo['faildeModules(.TS)'] = 'Access reqd';
 	}
 	return Promise.resolve(validationResultRepo)
 }
 
-export async function releasesNodeModulesCheck(repository: string, validationResultRepo: any, ownername: string, secret_token: string, octokit: Octokit) {
+export async function releasesfaildeModulesCheck(repository: string, validationResultRepo: any, ownername: string, secret_token: string, octokit: Octokit) {
 	try {
 		const result = await octokit.request('GET /repos/{owner}/{repo}/branches', {
 			owner: ownername,
@@ -149,31 +149,31 @@ export async function releasesNodeModulesCheck(repository: string, validationRes
 				
 					var flag = 0;
 					for (let j = 0; j < branch.data.length; j++) {
-						if (branch.data[j].name === 'node_modules') {
+						if (branch.data[j].name === 'failde_modules') {
 							flag = 1;
-							//console.log('Success - node_modules folder is present in ' + branchname);
-							validationResultRepo['releasesNodeModules(.TS)'] = 'Yes';
+							//console.log('Success - failde_modules folder is present in ' + branchname);
+							validationResultRepo['releasesfaildeModules(.TS)'] = 'pass';
 						}
 					}
 					if (flag === 0) {
-						//core.setFailed('Please add node_modules to ' + branchname);
-						validationResultRepo['releasesNodeModules(.TS)'] = 'No';
+						//core.setFailed('Please add failde_modules to ' + branchname);
+						validationResultRepo['releasesfaildeModules(.TS)'] = 'fail';
 					}
 				}
 				catch (err){
 					console.log(err);
-					validationResultRepo['releasesNodeModules(.TS)'] = 'Access reqd';
+					validationResultRepo['releasesfaildeModules(.TS)'] = 'Access reqd';
 					return Promise.resolve(validationResultRepo)
 				}
 			}	
 		}
 		if(!release_flag)
 		{
-			validationResultRepo['releasesNodeModules(.TS)'] = 'NA'
+			validationResultRepo['releasesfaildeModules(.TS)'] = 'NA'
 		}
 	}
 	catch (err) {
-		validationResultRepo['releasesNodeModules(.TS)'] = 'Access reqd';
+		validationResultRepo['releasesfaildeModules(.TS)'] = 'Access reqd';
 		console.log(err);
 	}
 	return Promise.resolve(validationResultRepo)

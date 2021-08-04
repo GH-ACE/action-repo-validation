@@ -12,12 +12,12 @@ export async function issueTemplateCheck(repository: string, validationResultRep
 		});
 		if (result.status == 200) {
 			//console.log('Success - ISSUE_TEMPLATE is set up');
-			validationResultRepo['issueTemplate'] = 'Yes';
+			validationResultRepo['issueTemplate'] = 'pass';
       defaultLabelCheck(repository, ownername, secret_token, octokit);
 		}
 		else {
 			//core.setFailed('Please set up ISSUE_TEMPLATE');
-			validationResultRepo['issueTemplate'] = 'No';
+			validationResultRepo['issueTemplate'] = 'fail';
 		}
 	}
 	catch (err) {
