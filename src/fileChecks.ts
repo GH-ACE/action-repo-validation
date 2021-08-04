@@ -62,7 +62,7 @@ export async function codeOwnerCheck(repository: string,  validationResultRepo: 
 		if (result.status === 200) {
 			//console.log('Success - CODEOWNERS file is present');
 			console.log(result.status + '------>'+ repository);
-			validationResultRepo['codeOwner'] = 'Yes';
+			validationResultRepo['codeOwner'] = '*Yes';
 		}
 		else {
 			//core.setFailed('Please add CODEOWNERS file');
@@ -73,10 +73,12 @@ export async function codeOwnerCheck(repository: string,  validationResultRepo: 
 		//core.setFailed('Please add CODEOWNERS file');
 		console.log('code owner check-------')
 		console.log(err.status +'------>' +repository);
-		if(err.status === '404')
+		if(err.status === 404) {
 			validationResultRepo['codeOwner'] = 'No';
-		else
+		}
+		else {
 			validationResultRepo['codeOwner'] = 'Access reqd';
+		}
 	}
 	return Promise.resolve(validationResultRepo)
 }
