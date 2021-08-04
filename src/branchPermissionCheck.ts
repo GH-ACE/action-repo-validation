@@ -37,7 +37,7 @@ async function branchPermissionCheckHelper(branchname: string, validationResultR
         }); 
         console.log(result);
         var approval_count = result.data.required_approving_review_count;
-        if(approval_count === 0){
+        if(approval_count === 0 || approval_count == undefined ){
             //core.setFailed('Please enable Require review from Code Owners for '+ branchname)
             // console.log(repository + branchname + '-->fail');
             validationResultRepo['branchPermission'] = 'fail';
