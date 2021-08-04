@@ -58,8 +58,6 @@ export async function codeOwnerCheck(repository: string,  validationResultRepo: 
 				Authorization: 'Bearer ' + secret_token
 			}
 		});
-		console.log('code owner check-------')
-		console.log(result);
 		if (result.status == 200) {
 			//console.log('Success - CODEOWNERS file is present');
 			validationResultRepo['codeOwner'] = 'Yes';
@@ -71,6 +69,8 @@ export async function codeOwnerCheck(repository: string,  validationResultRepo: 
 	}
 	catch (err) {
 		//core.setFailed('Please add CODEOWNERS file');
+		console.log('code owner check-------')
+		console.log(err.status);
 		if(err.status == 404)
 			validationResultRepo['codeOwner'] = 'No';
 		else
