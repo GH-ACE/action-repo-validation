@@ -33,12 +33,7 @@ async function branchPermissionCheckHelper(branchname: string, validationResultR
         branch: branchname,
         headers : { Authorization: 'Bearer ' + secret_token },
         dismissal_restrictions: {
-            // // users: [
-            // //   'BALAGA-GAYATRI'
-            // // ],
-            // teams: [
-            //   'ace-crew'
-            // ]
+           
           }
         }); 
         // console.log(result);
