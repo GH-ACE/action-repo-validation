@@ -14,6 +14,8 @@ export async function branchPermissionCheck(repository: string, validationResult
             if(result.data[i].name.substring(0,9) === 'releases/' || result.data[i].name === 'main' || result.data[i].name === 'master' ){
                 var branchname = result.data[i].name;
                 branchPermissionCheckHelper(branchname, validationResultRepo, repository, ownername, secret_token, octokit);
+                if(validationResultRepo['branchPermission'] === 'fail')
+                    return Promise.resolve(validationResultRepo);
             }
         }
     }
@@ -21,7 +23,7 @@ export async function branchPermissionCheck(repository: string, validationResult
         // console.log(err);
         validationResultRepo['branchPermission'] = 'Access reqd';
     }
-    return Promise.resolve(validationResultRepo)
+    return Promise.resolve(validationResultRepo);
 }
 
 async function branchPermissionCheckHelper(branchname: string, validationResultRepo: any, repository: string, ownername: string, secret_token: string, octokit: Octokit){ 
@@ -34,7 +36,7 @@ async function branchPermissionCheckHelper(branchname: string, validationResultR
         headers : { Authorization: 'Bearer ' + secret_token },
         dismissal_restrictions: {
            
-          }
+        }
         }); 
         // console.log(result);
         var approval_count = result.data.required_approving_review_count;
