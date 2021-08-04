@@ -70,7 +70,7 @@ export async function codeOwnerCheck(repository: string,  validationResultRepo: 
 	catch (err) {
 		//core.setFailed('Please add CODEOWNERS file');
 		console.log('code owner check-------')
-		console.log(err.status);
+		console.log(err.status +'------>' +repository);
 		if(err.status == 404)
 			validationResultRepo['codeOwner'] = 'No';
 		else

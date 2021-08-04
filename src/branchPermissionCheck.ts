@@ -18,7 +18,7 @@ export async function branchPermissionCheck(repository: string, validationResult
         }
     }
     catch(err){
-        console.log(err);
+        // console.log(err);
         validationResultRepo['branchPermission'] = 'Access reqd';
     }
     return Promise.resolve(validationResultRepo)
