@@ -22,7 +22,10 @@ export async function issueTemplateCheck(repository: string, validationResultRep
 	}
 	catch (err) {
 		//core.setFailed('Please set up ISSUE_TEMPLATE');
-		validationResultRepo['issueTemplate'] = 'Access reqd';
+		if(err.status == 404)
+			validationResultRepo['nodeModules(.TS)'] = 'pass';
+		else
+			validationResultRepo['nodeModules(.TS)'] = 'Access reqd';
 	}
 	return Promise.resolve(validationResultRepo)
 }
