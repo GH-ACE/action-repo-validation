@@ -33,7 +33,7 @@ async function branchPermissionCheckHelper(branchname: string, validationResultR
         repo: repository,
         owner: ownername,
         branch: branchname,
-        headers : { Authorization: 'Bearer ' + secret_token },
+        headers : { Authorization: 'Bearer ' + secret_token , accept: 'application/vnd.github.luke-cage-preview+json'},
         }); 
         // console.log(result);
         var approval_count = result.data.required_approving_review_count;
