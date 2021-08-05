@@ -139,6 +139,7 @@ export async function releasesnodeModulesCheck(repository: string, validationRes
 				}
 				catch (err){
 					validationResultRepo['releasesnodeModules(.TS)'] = err.status;
+					Promise.resolve(validationResultRepo)
 				}
 			}	
 		}
