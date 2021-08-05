@@ -11,26 +11,26 @@ export async function issueTemplateCheck(repository: string, validationResultRep
 			}
 		});
 		if (result.status == 200) {
-			//console.log('Success - ISSUE_TEMPLATE is set up');
-			validationResultRepo['issueTemplate'] = 'pass';
-      defaultLabelCheck(repository, ownername, secret_token, octokit);
+     		if(defaultLabelCheck(repository, ownername, validationResultRepo, secret_token, octokit))
+				validationResultRepo['issueTemplate'] = 'pass';
+			else
+				validationResultRepo['issueTemplate'] = 'fail';
+			
 		}
 		else {
-			//core.setFailed('Please set up ISSUE_TEMPLATE');
 			validationResultRepo['issueTemplate'] = 'fail';
 		}
 	}
 	catch (err) {
-		//core.setFailed('Please set up ISSUE_TEMPLATE');
 		if(err.status == 404)
 			validationResultRepo['issueTemplate'] = 'fail';
 		else
-			validationResultRepo['issueTemplate'] = 'Access reqd';
+			validationResultRepo['issueTemplate'] = err.status;
 	}
 	return Promise.resolve(validationResultRepo)
 }
   
-async function defaultLabelCheck(repository: string, ownername: string, secret_token: string, octokit: Octokit){
+async function defaultLabelCheck(repository: string, ownername: string, validationResultRepo:any, secret_token: string, octokit: Octokit){
   try {
 		const result = await octokit.request('GET /repos/{owner}/{repo}/contents/.github/ISSUE_TEMPLATE/custom.md', {
 			repo: repository,
@@ -41,13 +41,13 @@ async function defaultLabelCheck(repository: string, ownername: string, secret_t
 		});
     let contents = Buffer.from(result.data.content, "base64").toString("utf8");
 			if (contents.includes('need-to-triage')) {
-				//console.log('Success - Default label is need-to-triage');
+				return true;
 			}
 			else {
-				//core.setFailed('Please set default label as need-to-triage')
+				return false;
 			}
 	}
 	catch (err) {
-		//console.log(err);
+		validationResultRepo['issueTemplate'] = err.status;
 	}
 }

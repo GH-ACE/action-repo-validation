@@ -11,7 +11,6 @@ export async function readmeChecks(repository: string, validationResultRepo: any
 			}
 		});
 		if (result.status == 200) {
-			//console.log('Success - README file is present');
 			const current = await octokit.request('GET /repos/{owner}/{repo}/contents/README.md', {
 				repo: repository,
 				owner: ownername,
@@ -20,22 +19,14 @@ export async function readmeChecks(repository: string, validationResultRepo: any
 				}
 			});
 			let contents = Buffer.from(current.data.content, "base64").toString("utf8");
-			if (contents.includes('Example')) {
-				//console.log('Success - Example workflow is present in README')
+			if ((contents.includes('Example')) && (contents.includes('Contribution') || contents.includes('Contributing'))) {
+				validationResultRepo['readme'] = 'pass';
 			}
 			else {
-				//core.setFailed('Please add Example workflow in README');
-			}
-			if (contents.includes('Contribution') || contents.includes('Contributing')) {
-				//console.log('Success - Contribution Guidelines are present in README');
-			}
-			else {
-				//core.setFailed('Please add Contribution Guidelines in README');
-			}
-			validationResultRepo['readme'] = 'pass';
+				validationResultRepo['readme'] = 'fail';
+			}	
 		}
 		else {
-			//core.setFailed('Please add README file')
 			validationResultRepo['readme'] = 'fail';
 		}
 	}
@@ -43,10 +34,9 @@ export async function readmeChecks(repository: string, validationResultRepo: any
 		if(err.status == 404)
 			validationResultRepo['readme'] = 'fail';
 		else
-			validationResultRepo['readme'] = 'Access reqd';
+			validationResultRepo['readme'] = err.status;	
 	}
-	return Promise.resolve(validationResultRepo)
-
+	return Promise.resolve(validationResultRepo);
 }
 
 export async function codeOwnerCheck(repository: string,  validationResultRepo: any, ownername: string, secret_token: string, octokit: Octokit) {
@@ -59,22 +49,19 @@ export async function codeOwnerCheck(repository: string,  validationResultRepo: 
 			}
 		});
 		if (result.status === 200) {
-			//console.log('Success - CODEOWNERS file is present');
 			validationResultRepo['codeOwner'] = 'pass';
 		}
 		else {
-			//core.setFailed('Please add CODEOWNERS file');
 			validationResultRepo['codeOwner'] = 'fail';
 		}
 	}
 	catch (err) {
-		//core.setFailed('Please add CODEOWNERS file');
-		if(err.status === 404) 
+		if(err.status == 404)
 			validationResultRepo['codeOwner'] = 'fail';
-		else 
-			validationResultRepo['codeOwner'] = 'Access reqd';
+		else
+			validationResultRepo['codeOwner'] = err.status;
 	}
-	return Promise.resolve(validationResultRepo)
+	return Promise.resolve(validationResultRepo);
 }
 
 export async function nodeModulesCheck(repository: string, validationResultRepo: any, ownername: string, secret_token: string, octokit: Octokit) {
@@ -96,20 +83,12 @@ export async function nodeModulesCheck(repository: string, validationResultRepo:
 					}
 				});
 				if (includes_node_modules.status == 200) {
-					//core.setFailed('Please remove node_modules folder from master');
 					validationResultRepo['nodeModules(.TS)'] = 'fail';
 				}
-				// else {
-				// 	//console.log('Success - node_modules folder is failt present in master');
-				// 	validationResultRepo['nodeModules(.TS)'] = 'pass';
-				// }
 			}
 			catch (err) {
-				//console.log('Success - node_modules folder is failt present in master');
 				if(err.status == 404)
 					validationResultRepo['nodeModules(.TS)'] = 'pass';
-				else
-					validationResultRepo['nodeModules(.TS)'] = 'Access reqd';
 			}
 		}
 		else{
@@ -117,10 +96,9 @@ export async function nodeModulesCheck(repository: string, validationResultRepo:
 		}
 	}
 	catch (err) {
-		console.log(err);
-		validationResultRepo['nodeModules(.TS)'] = 'Access reqd';
+		validationResultRepo['nodeModules(.TS)'] = err.status;
 	}
-	return Promise.resolve(validationResultRepo)
+	return Promise.resolve(validationResultRepo);
 }
 
 export async function releasesnodeModulesCheck(repository: string, validationResultRepo: any, ownername: string, secret_token: string, octokit: Octokit) {
@@ -132,13 +110,13 @@ export async function releasesnodeModulesCheck(repository: string, validationRes
 				Authorization: 'Bearer ' + secret_token
 			}
 		});
-		let release_flag = false;
+		let releaseFlag = false;
 		for (let i = 0; i < result.data.length; i++) {
 			if (result.data[i].name.substring(0, 9) === 'releases/') {
-				release_flag=true;
+				releaseFlag=true;
 				var branchname = result.data[i].name;
 				try {
-					const branch = await octokit.request('GET /repos/{owner}/{repo}/contents', {
+					const contents = await octokit.request('GET /repos/{owner}/{repo}/contents', {
 						owner: ownername,
 						repo: repository,
 						ref: branchname,
@@ -146,35 +124,31 @@ export async function releasesnodeModulesCheck(repository: string, validationRes
 							Authorization: 'Bearer ' + secret_token
 						}
 					})
-				
-					var flag = 0;
-					for (let j = 0; j < branch.data.length; j++) {
-						if (branch.data[j].name === 'node_modules') {
-							flag = 1;
-							//console.log('Success - node_modules folder is present in ' + branchname);
+					var nodeModulesFlag = false;
+					for (let j = 0; j < contents.data.length; j++) {
+						if (contents.data[j].name === 'node_modules') {
+							nodeModulesFlag = true;
 							validationResultRepo['releasesnodeModules(.TS)'] = 'pass';
 						}
 					}
-					if (flag === 0) {
-						//core.setFailed('Please add node_modules to ' + branchname);
+					if(nodeModulesFlag == false)
+					{
 						validationResultRepo['releasesnodeModules(.TS)'] = 'fail';
+						break;
 					}
 				}
 				catch (err){
-					console.log(err);
-					validationResultRepo['releasesnodeModules(.TS)'] = 'Access reqd';
-					return Promise.resolve(validationResultRepo)
+					validationResultRepo['releasesnodeModules(.TS)'] = err.status;
 				}
 			}	
 		}
-		if(!release_flag)
+		if(!releaseFlag)
 		{
 			validationResultRepo['releasesnodeModules(.TS)'] = 'NA'
 		}
 	}
 	catch (err) {
-		validationResultRepo['releasesnodeModules(.TS)'] = 'Access reqd';
-		console.log(err);
+		validationResultRepo['releasesnodeModules(.TS)'] = err.status;
 	}
 	return Promise.resolve(validationResultRepo)
 }

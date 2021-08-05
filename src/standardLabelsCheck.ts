@@ -24,7 +24,6 @@ export async function standardLabelsCheck(repository: string, validationResultRe
         }
       }
       if(absentLabels.length==0){
-        //console.log('Success - Standard labels are present')
         validationResultRepo['standardLabels'] = 'pass';
       }
       else{
@@ -32,13 +31,11 @@ export async function standardLabelsCheck(repository: string, validationResultRe
         for(let i=1; i<absentLabels.length; i++){
           errorOutput = errorOutput + ', ' + absentLabels[i];
         }
-        //core.setFailed('Please add standard labels: '+ errorOutput);
         validationResultRepo['standardLabels'] = 'fail';
       }
     }
     catch(err){
-      //console.log(err);
-      validationResultRepo['standardLabels'] = 'Access reqd';
+      validationResultRepo['standardLabels'] = err.status;
     }
     return Promise.resolve(validationResultRepo)
   }

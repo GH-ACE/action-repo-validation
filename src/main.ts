@@ -15,7 +15,6 @@ async function main() {
     });
     var repositories = core.getInput('repositories');
     var repositories_list = repositories.split(',');
-    // const ownerName = 'azure';//github.context.repo.owner;
     var repositoryName = '';
     var repository='';
     var ownerName='';
@@ -24,7 +23,6 @@ async function main() {
         repositoryName = repositories_list[i];
         repository = repositoryName.split('/')[1];
         ownerName = repositoryName.split('/')[0];
-        console.log('*******' + repository + '*******');
         var validationResultRepo: any = {
             "repoName": repository,
             "readme": "unknown",
