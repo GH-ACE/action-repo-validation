@@ -14,8 +14,8 @@ export async function branchPermissionCheck(repository: string, validationResult
             if(result.data[i].name.substring(0,9) === 'releases/' || result.data[i].name === 'main' || result.data[i].name === 'master' ){
                 var branchname = result.data[i].name;
                 branchPermissionCheckHelper(branchname, validationResultRepo, repository, ownername, secret_token, octokit);
-                if(validationResultRepo['branchPermission'] === 'fail')
-                    return Promise.resolve(validationResultRepo);
+                if(validationResultRepo['branchPermission'] == 'fail')
+                    break;
             }
         }
     }
@@ -53,8 +53,10 @@ async function branchPermissionCheckHelper(branchname: string, validationResultR
     catch(err){
         //core.setFailed('Please enable Require review from Code Owners for '+ branchname)
         console.log(err);
-        if(err.status == 404 && err.data.message == 'Branch not protected')
+        if(err.status == 404 && err.data.message == 'Branch not protected'){
+            console.log('failllllll' + repository);
             validationResultRepo['branchPermission'] = 'fail';
+        }
         else
             validationResultRepo['branchPermission'] = 'Access reqd';
     }        
