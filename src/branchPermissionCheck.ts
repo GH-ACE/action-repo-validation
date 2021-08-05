@@ -21,7 +21,7 @@ export async function branchPermissionCheck(repository: string, validationResult
     }
     catch(err){
         // console.log(err);
-        validationResultRepo['branchPermission'] = 'Access reqd1';
+        validationResultRepo['branchPermission'] = 'Access reqd';
     }
     return Promise.resolve(validationResultRepo);
 }
@@ -53,6 +53,9 @@ async function branchPermissionCheckHelper(branchname: string, validationResultR
     catch(err){
         //core.setFailed('Please enable Require review from Code Owners for '+ branchname)
         console.log(err);
-        validationResultRepo['branchPermission'] = 'Access reqd2';
+        if(err.status == 404 && err.data.message == 'Branch not protected')
+            validationResultRepo['branchPermission'] = 'fail';
+        else
+            validationResultRepo['branchPermission'] = 'Access reqd';
     }        
 }
