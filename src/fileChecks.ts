@@ -109,7 +109,7 @@ export async function nodeModulesCheck(repository: string, validationResultRepo:
 				if(err.status == 404)
 					validationResultRepo['nodeModules(.TS)'] = 'pass';
 				else
-					validationResultRepo['nodeModules(.TS)'] = 'Access reqd';
+					validationResultRepo['nodeModules(.TS)'] = 'Access reqd1';
 			}
 		}
 		else{
@@ -118,7 +118,7 @@ export async function nodeModulesCheck(repository: string, validationResultRepo:
 	}
 	catch (err) {
 		console.log(err);
-		validationResultRepo['nodeModules(.TS)'] = 'Access reqd';
+		validationResultRepo['nodeModules(.TS)'] = 'Access reqd2';
 	}
 	return Promise.resolve(validationResultRepo)
 }
@@ -162,7 +162,7 @@ export async function releasesnodeModulesCheck(repository: string, validationRes
 				}
 				catch (err){
 					console.log(err);
-					validationResultRepo['releasesnodeModules(.TS)'] = 'Access reqd';
+					validationResultRepo['releasesnodeModules(.TS)'] = 'Access reqd1';
 					return Promise.resolve(validationResultRepo)
 				}
 			}	
@@ -173,7 +173,7 @@ export async function releasesnodeModulesCheck(repository: string, validationRes
 		}
 	}
 	catch (err) {
-		validationResultRepo['releasesnodeModules(.TS)'] = 'Access reqd';
+		validationResultRepo['releasesnodeModules(.TS)'] = 'Access reqd2';
 		console.log(err);
 	}
 	return Promise.resolve(validationResultRepo)
