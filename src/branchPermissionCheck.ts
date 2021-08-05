@@ -37,7 +37,7 @@ async function branchPermissionCheckHelper(branchname: string, validationResultR
         }); 
         // console.log(result);
         var approval_count = result.data.required_approving_review_count;
-        console.log(approval_count + '---->' + repository)
+        // console.log(approval_count + '---->' + repository)
         if(approval_count != 0 && approval_count != undefined ){
             //core.setFailed('Please enable Require review from Code Owners for '+ branchname)
             // console.log(repository + branchname + '-->fail');
@@ -52,9 +52,8 @@ async function branchPermissionCheckHelper(branchname: string, validationResultR
     } 
     catch(err){
         //core.setFailed('Please enable Require review from Code Owners for '+ branchname)
-        console.log(err);
+        // console.log(err);
         if(err.status == 404 && err.response.data.message == 'Branch not protected'){
-            console.log('failllllll' + repository);
             validationResultRepo['branchPermission'] = 'fail';
         }
         else
