@@ -134,11 +134,12 @@ export async function releasesnodeModulesCheck(repository: string, validationRes
 					if(nodeModulesFlag == false)
 					{
 						validationResultRepo['releasesnodeModules(.TS)'] = 'fail';
-						break;
+						return Promise.resolve(validationResultRepo);
+						
 					}
 				}
 				catch (err){
-					validationResultRepo['releasesnodeModules(.TS)'] = 'err.status';
+					validationResultRepo['releasesnodeModules(.TS)'] = err.status;
 					return Promise.resolve(validationResultRepo)
 				}
 			}	
@@ -149,7 +150,7 @@ export async function releasesnodeModulesCheck(repository: string, validationRes
 		}
 	}
 	catch (err) {
-		validationResultRepo['releasesnodeModules(.TS)'] = 'err.status';
+		validationResultRepo['releasesnodeModules(.TS)'] = err.status;
 	}
 	return Promise.resolve(validationResultRepo);
 }
