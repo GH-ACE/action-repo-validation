@@ -52,6 +52,7 @@ async function branchPermissionCheckHelper(branchname: string, validationResultR
     } 
     catch(err){
         //core.setFailed('Please enable Require review from Code Owners for '+ branchname)
+        console.log(err);
         validationResultRepo['branchPermission'] = 'Access reqd2';
     }        
 }
