@@ -23,9 +23,9 @@ export async function issueTemplateCheck(repository: string, validationResultRep
 	catch (err) {
 		//core.setFailed('Please set up ISSUE_TEMPLATE');
 		if(err.status == 404)
-			validationResultRepo['nodeModules(.TS)'] = 'pass';
+			validationResultRepo['issueTemplate'] = 'fail';
 		else
-			validationResultRepo['nodeModules(.TS)'] = 'Access reqd';
+			validationResultRepo['issueTemplate'] = 'Access reqd';
 	}
 	return Promise.resolve(validationResultRepo)
 }
