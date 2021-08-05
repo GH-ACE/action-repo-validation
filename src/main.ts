@@ -15,7 +15,7 @@ async function main() {
     });
     var repositories = core.getInput('repositories');
     var repositories_list = repositories.split(',');
-    // const ownername = 'azure';//github.context.repo.owner;
+    // const ownerName = 'azure';//github.context.repo.owner;
     var repositoryName = '';
     var repository='';
     var ownerName='';
@@ -37,21 +37,21 @@ async function main() {
             "releasesnodeModules(.TS)": "unknown",
         }
         // Check for example and Contribution in README
-        validationResultRepo = await readmeChecks(repository, validationResultRepo, ownername, secret_token, octokit);
+        validationResultRepo = await readmeChecks(repository, validationResultRepo, ownerName, secret_token, octokit);
         //Check for CODEOWNERS file in .github folder
-        validationResultRepo = await codeOwnerCheck(repository, validationResultRepo, ownername, secret_token, octokit);
+        validationResultRepo = await codeOwnerCheck(repository, validationResultRepo, ownerName, secret_token, octokit);
         //Check if nodemodules folder is present in master branch for typescript action
-        validationResultRepo = await nodeModulesCheck(repository, validationResultRepo, ownername, secret_token, octokit);
+        validationResultRepo = await nodeModulesCheck(repository, validationResultRepo, ownerName, secret_token, octokit);
         //check for branch permissions in main/master and releases/*
-        validationResultRepo = await branchPermissionCheck(repository, validationResultRepo, ownername, secret_token, octokit);
+        validationResultRepo = await branchPermissionCheck(repository, validationResultRepo, ownerName, secret_token, octokit);
         //check for nodemodules folder in releases/*
-        validationResultRepo = await releasesnodeModulesCheck(repository, validationResultRepo, ownername, secret_token, octokit);
+        validationResultRepo = await releasesnodeModulesCheck(repository, validationResultRepo, ownerName, secret_token, octokit);
         //check for security/vulnerability bot
-        validationResultRepo = await vulnerabilityBotCheck(repository, validationResultRepo, ownername, secret_token, octokit);
+        validationResultRepo = await vulnerabilityBotCheck(repository, validationResultRepo, ownerName, secret_token, octokit);
         //1. check whether issue-template has been set up and 2. default label is need-to-triage
-        validationResultRepo = await issueTemplateCheck(repository, validationResultRepo, ownername, secret_token, octokit);
+        validationResultRepo = await issueTemplateCheck(repository, validationResultRepo, ownerName, secret_token, octokit);
         //Check whether standard labels have been set up
-        validationResultRepo = await standardLabelsCheck(repository, validationResultRepo, ownername, secret_token, octokit)
+        validationResultRepo = await standardLabelsCheck(repository, validationResultRepo, ownerName, secret_token, octokit)
         validationResult.push(validationResultRepo);
     }
     console.log(JSON.parse(JSON.stringify(validationResult)));
