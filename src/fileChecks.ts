@@ -144,7 +144,7 @@ export async function releasesnodeModulesCheck(repository: string, validationRes
 				}
 			}	
 		}
-		if(!releaseFlag)
+		if(releaseFlag == false)
 		{
 			validationResultRepo['releasesnodeModules(.TS)'] = 'NA'
 		}
