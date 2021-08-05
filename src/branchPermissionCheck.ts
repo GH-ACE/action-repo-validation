@@ -20,7 +20,7 @@ export async function branchPermissionCheck(repository: string, validationResult
     }
     catch(err){
         validationResultRepo['branchPermission'] = err.status;
-
+    }
     return Promise.resolve(validationResultRepo);
 }
 
