@@ -1,11 +1,11 @@
 import * as core from '@actions/core';
 import { Octokit } from '@octokit/core';
 
-export async function standardLabelsCheck(repository: string, validationResultRepo: any, ownername: string, secret_token: string, octokit: Octokit){
+export async function standardLabelsCheck(repository: string, validationResultRepo: any, ownerName: string, secret_token: string, octokit: Octokit){
     try{
       const result = await octokit.request('GET /repos/{owner}/{repo}/labels',{
         repo: repository,
-        owner: ownername,
+        owner: ownerName,
         headers : { 
           Authorization: 'Bearer ' + secret_token,
         },

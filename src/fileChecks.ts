@@ -1,11 +1,11 @@
 import * as core from '@actions/core';
 import { Octokit } from '@octokit/core';
 
-export async function readmeChecks(repository: string, validationResultRepo: any,  ownername: string, secret_token: string, octokit: Octokit) {
+export async function readmeChecks(repository: string, validationResultRepo: any,  ownerName: string, secret_token: string, octokit: Octokit) {
 	try {
 		const result = await octokit.request('GET /repos/{owner}/{repo}/readme', {
 			repo: repository,
-			owner: ownername,
+			owner: ownerName,
 			headers: {
 				Authorization: 'Bearer ' + secret_token
 			}
@@ -13,7 +13,7 @@ export async function readmeChecks(repository: string, validationResultRepo: any
 		if (result.status == 200) {
 			const current = await octokit.request('GET /repos/{owner}/{repo}/contents/README.md', {
 				repo: repository,
-				owner: ownername,
+				owner: ownerName,
 				headers: {
 					Authorization: 'Bearer ' + secret_token
 				}
@@ -39,11 +39,11 @@ export async function readmeChecks(repository: string, validationResultRepo: any
 	return Promise.resolve(validationResultRepo);
 }
 
-export async function codeOwnerCheck(repository: string,  validationResultRepo: any, ownername: string, secret_token: string, octokit: Octokit) {
+export async function codeOwnerCheck(repository: string,  validationResultRepo: any, ownerName: string, secret_token: string, octokit: Octokit) {
 	try {
 		const result = await octokit.request('GET /repos/{owner}/{repo}/contents/.github/CODEOWNERS', {
 			repo: repository,
-			owner: ownername,
+			owner: ownerName,
 			headers: {
 				Authorization: 'Bearer ' + secret_token
 			}
@@ -64,11 +64,11 @@ export async function codeOwnerCheck(repository: string,  validationResultRepo: 
 	return Promise.resolve(validationResultRepo);
 }
 
-export async function nodeModulesCheck(repository: string, validationResultRepo: any, ownername: string, secret_token: string, octokit: Octokit) {
+export async function nodeModulesCheck(repository: string, validationResultRepo: any, ownerName: string, secret_token: string, octokit: Octokit) {
 	try {
 		const result = await octokit.request('GET /repos/{owner}/{repo}/languages', {
 			repo: repository,
-			owner: ownername,
+			owner: ownerName,
 			headers: {
 				Authorization: 'Bearer ' + secret_token
 			}
@@ -77,7 +77,7 @@ export async function nodeModulesCheck(repository: string, validationResultRepo:
 			try {
 				const includes_node_modules = await octokit.request('GET /repos/{owner}/{repo}/contents/node_modules', {
 					repo: repository,
-					owner: ownername,
+					owner: ownerName,
 					headers: {
 						Authorization: 'Bearer ' + secret_token
 					}
@@ -101,11 +101,10 @@ export async function nodeModulesCheck(repository: string, validationResultRepo:
 	return Promise.resolve(validationResultRepo);
 }
 
-export async function releasesnodeModulesCheck(repository: string, validationResultRepo: any, ownername: string, secret_token: string, octokit: Octokit) {
-	console.log('releasenodemod')
+export async function releasesnodeModulesCheck(repository: string, validationResultRepo: any, ownerName: string, secret_token: string, octokit: Octokit) {
 	try {
 		const result = await octokit.request('GET /repos/{owner}/{repo}/branches', {
-			owner: ownername,
+			owner: ownerName,
 			repo: repository,
 			headers: {
 				Authorization: 'Bearer ' + secret_token
@@ -118,7 +117,7 @@ export async function releasesnodeModulesCheck(repository: string, validationRes
 				var branchname = result.data[i].name;
 				try {
 					const contents = await octokit.request('GET /repos/{owner}/{repo}/contents', {
-						owner: ownername,
+						owner: ownerName,
 						repo: repository,
 						ref: branchname,
 						headers: {
@@ -148,8 +147,7 @@ export async function releasesnodeModulesCheck(repository: string, validationRes
 		}
 	}
 	catch (err) {
-		// validationResultRepo['releasesnodeModules(.TS)'] = err.status;
-		console.log('laast catch')
+		validationResultRepo['releasesnodeModules(.TS)'] = err.status;
 	}
 	return Promise.resolve(validationResultRepo);
 }

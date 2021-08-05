@@ -1,17 +1,17 @@
 import * as core from '@actions/core';
 import { Octokit } from '@octokit/core';
 
-export async function issueTemplateCheck(repository: string, validationResultRepo: any, ownername: string, secret_token: string, octokit: Octokit) {
+export async function issueTemplateCheck(repository: string, validationResultRepo: any, ownerName: string, secret_token: string, octokit: Octokit) {
 	try {
 		const result = await octokit.request('GET /repos/{owner}/{repo}/contents/.github/ISSUE_TEMPLATE', {
 			repo: repository,
-			owner: ownername,
+			owner: ownerName,
 			headers: {
 				Authorization: 'Bearer ' + secret_token
 			}
 		});
 		if (result.status == 200) {
-     		if(defaultLabelCheck(repository, ownername, validationResultRepo, secret_token, octokit))
+     		if(defaultLabelCheck(repository, ownerName, validationResultRepo, secret_token, octokit))
 				validationResultRepo['issueTemplate'] = 'pass';
 			else
 				validationResultRepo['issueTemplate'] = 'fail';
@@ -30,11 +30,11 @@ export async function issueTemplateCheck(repository: string, validationResultRep
 	return Promise.resolve(validationResultRepo)
 }
   
-async function defaultLabelCheck(repository: string, ownername: string, validationResultRepo:any, secret_token: string, octokit: Octokit){
+async function defaultLabelCheck(repository: string, ownerName: string, validationResultRepo:any, secret_token: string, octokit: Octokit){
   try {
 		const result = await octokit.request('GET /repos/{owner}/{repo}/contents/.github/ISSUE_TEMPLATE/custom.md', {
 			repo: repository,
-			owner: ownername,
+			owner: ownerName,
 			headers: {
 				Authorization: 'Bearer ' + secret_token
 			}
