@@ -53,7 +53,7 @@ async function branchPermissionCheckHelper(branchname: string, validationResultR
     catch(err){
         //core.setFailed('Please enable Require review from Code Owners for '+ branchname)
         console.log(err);
-        if(err.status == 404 && err.data.message == 'Branch not protected'){
+        if(err.status == 404 && err.response.data.message == 'Branch not protected'){
             console.log('failllllll' + repository);
             validationResultRepo['branchPermission'] = 'fail';
         }
