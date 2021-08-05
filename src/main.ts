@@ -15,11 +15,15 @@ async function main() {
     });
     var repositories = core.getInput('repositories');
     var repositories_list = repositories.split(',');
-    const ownername = 'azure';//github.context.repo.owner;
-    var repository = '';
+    // const ownername = 'azure';//github.context.repo.owner;
+    var repositoryName = '';
+    var repository='';
+    var ownerName='';
     var validationResult = [];
     for (var i = 0; i < repositories_list.length; i++) {
-        repository = repositories_list[i];
+        repositoryName = repositories_list[i];
+        repository = repositoryName.split('/')[1];
+        ownerName = repositoryName.split('/')[0];
         console.log('*******' + repository + '*******');
         var validationResultRepo: any = {
             "repoName": repository,
