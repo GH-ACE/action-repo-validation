@@ -102,6 +102,7 @@ export async function nodeModulesCheck(repository: string, validationResultRepo:
 }
 
 export async function releasesnodeModulesCheck(repository: string, validationResultRepo: any, ownername: string, secret_token: string, octokit: Octokit) {
+	console.log('releasenodemod')
 	try {
 		const result = await octokit.request('GET /repos/{owner}/{repo}/branches', {
 			owner: ownername,
@@ -133,14 +134,11 @@ export async function releasesnodeModulesCheck(repository: string, validationRes
 					}
 					if(nodeModulesFlag == false)
 					{
-						validationResultRepo['releasesnodeModules(.TS)'] = 'fail';
-						return Promise.resolve(validationResultRepo);
-						
+						validationResultRepo['releasesnodeModules(.TS)'] = 'fail';	
 					}
 				}
 				catch (err){
 					validationResultRepo['releasesnodeModules(.TS)'] = err.status;
-					return Promise.resolve(validationResultRepo)
 				}
 			}	
 		}
@@ -150,7 +148,8 @@ export async function releasesnodeModulesCheck(repository: string, validationRes
 		}
 	}
 	catch (err) {
-		validationResultRepo['releasesnodeModules(.TS)'] = err.status;
+		// validationResultRepo['releasesnodeModules(.TS)'] = err.status;
+		console.log('laast catch')
 	}
 	return Promise.resolve(validationResultRepo);
 }
