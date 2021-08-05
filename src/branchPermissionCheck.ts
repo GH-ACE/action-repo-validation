@@ -35,9 +35,9 @@ async function branchPermissionCheckHelper(branchname: string, validationResultR
         branch: branchname,
         headers : { Authorization: 'Bearer ' + secret_token , accept: 'application/vnd.github.luke-cage-preview+json'},
         }); 
-        // console.log(result);
+        console.log(result);
         var approval_count = result.data.required_approving_review_count;
-        // console.log(approval_count + '---->' + repository)
+        console.log(approval_count + '---->' + repository)
         if(approval_count != 0 && approval_count != undefined ){
             //core.setFailed('Please enable Require review from Code Owners for '+ branchname)
             // console.log(repository + branchname + '-->fail');
@@ -52,7 +52,7 @@ async function branchPermissionCheckHelper(branchname: string, validationResultR
     } 
     catch(err){
         //core.setFailed('Please enable Require review from Code Owners for '+ branchname)
-        // console.log(err);
+        console.log(err);
         if(err.status == 404 && err.response.data.message == 'Branch not protected'){
             validationResultRepo['branchPermission'] = 'fail';
         }
