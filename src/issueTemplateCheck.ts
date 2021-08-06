@@ -39,15 +39,18 @@ async function defaultLabelCheck(repository: string, ownerName: string, validati
 				Authorization: 'Bearer ' + secret_token
 			}
 		});
-    let contents = Buffer.from(result.data.content, "base64").toString("utf8");
-			if (contents.includes('need-to-triage')) {
-				return true;
-			}
-			else {
-				return false;
-			}
+    	let contents = Buffer.from(result.data.content, "base64").toString("utf8");
+		if (contents.includes('need-to-triage')) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 	catch (err) {
-		validationResultRepo['issueTemplate'] = err.status;
+		if(err.status == 404)
+			validationResultRepo['issueTemplate'] = 'fail';
+		else
+			validationResultRepo['issueTemplate'] = err.status;
 	}
 }

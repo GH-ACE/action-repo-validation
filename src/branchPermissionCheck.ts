@@ -33,7 +33,7 @@ async function branchPermissionCheckHelper(branchname: string, validationResultR
         branch: branchname,
         headers : { Authorization: 'Bearer ' + secret_token , accept: 'application/vnd.github.luke-cage-preview+json'},
         }); 
-      
+        console.log(result);
         if(result.status == 200){
             validationResultRepo['branchPermission'] = 'pass';
         }
