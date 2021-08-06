@@ -9,7 +9,6 @@ export async function branchPermissionCheck(repository: string, validationResult
         headers : { Authorization: 'Bearer ' + secret_token
         }
         });
-        console.log(result);
         for(let i=0;i<result.data.length;i++){
             if(result.data[i].name.substring(0,9) === 'releases/' || result.data[i].name === 'main' || result.data[i].name === 'master' ){
                 var branchname = result.data[i].name;
@@ -28,13 +27,12 @@ export async function branchPermissionCheck(repository: string, validationResult
 async function branchPermissionCheckHelper(branchname: string, validationResultRepo: any, repository: string, ownerName: string, secret_token: string, octokit: Octokit){ 
     
     try{
-        const result = await octokit.request('GET /repos/{owner}/{repo}/branches/{branch}/protection/',{
+        const result = await octokit.request('GET /repos/{owner}/{repo}/branches/{branch}/protection',{
         repo: repository,
         owner: ownerName,
         branch: branchname,
         headers : { Authorization: 'Bearer ' + secret_token , accept: 'application/vnd.github.luke-cage-preview+json'},
         }); 
-        console.log(result);
         if(result.status == 200){
             validationResultRepo['branchPermission'] = 'pass';
         }
