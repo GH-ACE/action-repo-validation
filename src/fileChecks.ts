@@ -19,7 +19,7 @@ export async function readmeChecks(repository: string, validationResultRepo: any
 				}
 			});
 			let contents = Buffer.from(current.data.content, "base64").toString("utf8");
-			if ((contents.includes('Example')) && (contents.includes('Contribution') || contents.includes('Contributing'))) {
+			if ((contents.includes('Example') || (contents.includes('Sample')) && (contents.includes('Contribution') || contents.includes('Contributing'))) {
 				validationResultRepo['readme'] = 'pass';
 			}
 			else {
