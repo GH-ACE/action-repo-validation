@@ -39,7 +39,6 @@ async function defaultLabelCheck(repository: string, ownerName: string, validati
 				Authorization: 'Bearer ' + secret_token
 			}
 		});
-		console.log(result);
 		let repoContents = result.data
 		for (let i = 0; i < repoContents.length; i++) {
 			const fileResult = await octokit.request('GET /repos/{owner}/{repo}/contents/'+repoContents[i].path, {
