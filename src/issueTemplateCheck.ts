@@ -40,13 +40,21 @@ async function defaultLabelCheck(repository: string, ownerName: string, validati
 			}
 		});
 		console.log(result);
-    	let contents = Buffer.from(result.data.content, "base64").toString("utf8");
-		if (contents.includes('need-to-triage')) {
-			return true;
+		let repoContents = result.data
+		for (let i = 0; i < repoContents.length; i++) {
+			const fileResult = await octokit.request('GET /repos/{owner}/{repo}/contents/'+repoContents.path, {
+				repo: repository,
+				owner: ownerName,
+				headers: {
+					Authorization: 'Bearer ' + secret_token
+				}
+			});
+			let contents = Buffer.from(fileResult.data.content, "base64").toString("utf8");
+			if (contents.includes('need-to-triage')) {
+				return true;
+			}
 		}
-		else {
-			return false;
-		}
+    	return false;
 	}
 	catch (err) {
 		if(err.status == 404)
