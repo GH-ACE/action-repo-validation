@@ -32,7 +32,7 @@ export async function issueTemplateCheck(repository: string, validationResultRep
   
 async function defaultLabelCheck(repository: string, ownerName: string, validationResultRepo:any, secret_token: string, octokit: Octokit){
   try {
-		const result = await octokit.request('GET /repos/{owner}/{repo}/contents/.github/ISSUE_TEMPLATE/bug-report-feature-request.md', {
+		const result = await octokit.request('GET /repos/{owner}/{repo}/contents/.github/ISSUE_TEMPLATE', {
 			repo: repository,
 			owner: ownerName,
 			headers: {
