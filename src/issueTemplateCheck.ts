@@ -39,6 +39,7 @@ async function defaultLabelCheck(repository: string, ownerName: string, validati
 				Authorization: 'Bearer ' + secret_token
 			}
 		});
+		console.log(result);
     	let contents = Buffer.from(result.data.content, "base64").toString("utf8");
 		if (contents.includes('need-to-triage')) {
 			return true;
