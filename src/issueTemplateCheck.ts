@@ -42,7 +42,7 @@ async function defaultLabelCheck(repository: string, ownerName: string, validati
 		console.log(result);
 		let repoContents = result.data
 		for (let i = 0; i < repoContents.length; i++) {
-			const fileResult = await octokit.request('GET /repos/{owner}/{repo}/contents/'+repoContents.path, {
+			const fileResult = await octokit.request('GET /repos/{owner}/{repo}/contents/'+repoContents[i].path, {
 				repo: repository,
 				owner: ownerName,
 				headers: {
